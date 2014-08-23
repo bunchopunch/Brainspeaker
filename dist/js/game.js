@@ -99,6 +99,7 @@ module.exports = Menu;
   'use strict';
   function Play() {}
   Play.prototype = {
+    defaultMonitorText: "Your Moves: ",
     upKey: null,
     downKey: null,
     leftKey: null,
@@ -115,32 +116,40 @@ module.exports = Menu;
       this.sprite.body.velocity.x = this.game.rnd.integerInRange(-500,500);
       this.sprite.body.velocity.y = this.game.rnd.integerInRange(-500,500);
 */
-    this.textStyle = {font: "30px Sans", fill: "#ffffff", align: "center"};
-    this.titleText = this.game.add.text(this.game.world.centerX, this.game.height-75, 'Your moves: ', this.textStyle);
-    this.titleText.anchor.setTo(0.5, 0.5);
+    this.textStyle = {font: "30px Sans", fill: "#ffffff", align: "left"};
+    this.monitorText = this.game.add.text(this.game.world.centerX, this.game.height-75, 'Your moves: ', this.textStyle);
+    this.monitorText.anchor.setTo(0.5, 0.5);
 
     this.upKey = this.game.input.keyboard.addKey(Phaser.Keyboard.UP);
     this.downKey = this.game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
     this.leftKey = this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
     this.rightKey = this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
 
-    this.appendMove = function(direction){
-      var toAppend = null;
-      switch (direction){
-        case "up":
+//    this.upKey.onDown.add = this.game.input.keyboard.addKey(Phaser.Keyboard.UP);
+//    this.downKey.onDown.add = this.game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+//    this.leftKey.onDown.add = this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+
+
+    this.appendMove = function(keyEvent){
+      console.log(keyEvent);
+      var toAppend = null,
+      returnedKey = keyEvent.keyCode;
+      switch (returnedKey){
+        case 38:
           toAppend = "▲";
         break;
-        case "down":
+        case 40:
           toAppend = "▼";
         break;
-        case "left":
+        case 37:
           toAppend = "◀";
         break;
-        case "right":
+        case 39:
           toAppend = "▶";
         break;
       }
       console.log(toAppend);
+      this.monitorText.text = this.monitorText.text + toAppend;  
     }
 
 //    this.titleText
@@ -150,7 +159,13 @@ module.exports = Menu;
     },
     update: function() {
 
-      if (this.upKey.isDown){
+      this.upKey.onDown.add(this.appendMove, this);
+      this.downKey.onDown.add(this.appendMove, this);
+      this.rightKey.onDown.add(this.appendMove, this);
+      this.leftKey.onDown.add(this.appendMove, this);
+
+/*
+      if (this.upKey){
         this.appendMove("up");
       } else if (this.downKey.isDown) {
         this.appendMove("down");
@@ -159,11 +174,11 @@ module.exports = Menu;
       } else if (this.rightKey.isDown) {
         this.appendMove("right");        
       }
-
+*/
     },
-    clickListener: function() {
-      this.game.state.start('gameover');
-    }
+//    clickListener: function() {
+//      this.game.state.start('gameover');
+//    }
   };
   
   module.exports = Play;
