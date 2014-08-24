@@ -26,15 +26,19 @@
         switch (returnedKey){
           case 38:
             toAppend = "▲";
+      glob.animations.play('left-center', 20, false);
           break;
           case 40:
             toAppend = "▼";
+      glob.animations.play('right-center', 20, false);
           break;
           case 37:
             toAppend = "◀";
+      glob.animations.play('center-left', 20, false);
           break;
           case 39:
             toAppend = "▶";
+      glob.animations.play('center-right', 20, false);
           break;
         }
 
@@ -42,9 +46,11 @@
       }
 
       var glob = this.game.add.sprite(this.game.world.centerX - 250 , this.game.world.centerY - 300, 'glob');
-      glob.animations.add('center-left');
-      glob.animations.add('left-center');
-      glob.animations.play('center-left', 20, true);
+      glob.animations.add('center-left', [0, 1, 2, 3, 4, 5], true);
+      glob.animations.add('left-center', [5, 4, 3, 2, 1, 0], true);
+      glob.animations.add('center-right', [0, 10, 9, 8, 7, 6], true);
+      glob.animations.add('right-center', [6, 7, 8, 9, 10, 0], true);
+
 
 //        this.game.add.sprite(0, 0, "glob")
 //        this.glob = game.add.sprite(100, 100, "glob");
