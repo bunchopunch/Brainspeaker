@@ -105,7 +105,7 @@ module.exports = Menu;
     downKey: null,
     leftKey: null,
     rightKey: null,
-    glob: null,
+    gob: null,
     anim: null,
     create: function() {
 
@@ -124,31 +124,30 @@ module.exports = Menu;
         switch (returnedKey){
           case 38:
             toAppend = "▲";
-//      glob.animations.play('left-center', 20, false);
-      glob.animations.play('up', 20, false);
+            gob.animations.play('up', 20, false);
           break;
           case 40:
             toAppend = "▼";
-//      glob.animations.play('right-center', 20, false);
-      glob.animations.play('down', 20, false);
+            gob.animations.play('down', 20, false);
           break;
           case 37:
             toAppend = "◀";
-      glob.animations.play('left', 20, false);
+            gob.animations.play('left', 20, false);
           break;
           case 39:
             toAppend = "▶";
-      glob.animations.play('right', 20, false);
+            gob.animations.play('right', 20, false);
           break;
         }
 
         this.monitorText.text = this.monitorText.text + toAppend;  
       }
 
-      var glob = this.game.add.sprite(this.game.world.centerX - 250 , this.game.world.centerY - 380, 'glob');
-      glob.animations.add('left', [0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0], true);
-      glob.animations.add('right', [0, 10, 9, 8, 7, 6, 7, 8, 9, 10, 0], true);
-      glob.animations.add('up', [0, 11, 12, 13, 14, 15, 14, 13, 12, 11, 0], true);
+      var gob = this.game.add.sprite(this.game.world.centerX - (250*0.8) , this.game.world.centerY - (380*0.8), 'gob');
+      gob.scale.setTo(.8, .8);
+      gob.animations.add('left', [0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0], true);
+      gob.animations.add('right', [0, 10, 9, 8, 7, 6, 7, 8, 9, 10, 0], true);
+      gob.animations.add('up', [0, 11, 12, 13, 14, 15, 14, 13, 12, 11, 0], true);
 
     },
     update: function() {
@@ -160,7 +159,7 @@ module.exports = Menu;
 
 
     },
-//      this.glob.play("left", 20, true);
+//      this.gob.play("left", 20, true);
   };
   
   module.exports = Play;
@@ -180,7 +179,7 @@ Preload.prototype = {
     this.load.onLoadComplete.addOnce(this.onLoadComplete, this);
     this.load.setPreloadSprite(this.asset);
     this.load.image('yeoman', 'assets/yeoman-logo.png');
-    this.load.spritesheet('glob', 'assets/gob-lossy.png', 503, 590, 16);
+    this.load.spritesheet('gob', 'assets/gob-lossy.png', 503, 590, 16);
 
   },
   create: function() {
