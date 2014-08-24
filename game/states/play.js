@@ -9,6 +9,11 @@
     rightKey: null,
     gob: null,
     anim: null,
+    currentLevel: 0,
+    levels: [
+      ["u", "r", "l", "u"],
+      ["u", "u", "r", "r", "l", "l"],
+    ],
     create: function() {
 
       this.textStyle = {font: "30px Sans", fill: "#ffffff", align: "left"};
@@ -41,9 +46,34 @@
             gob.animations.play('right', 20, false);
           break;
         }
-
         this.monitorText.text = this.monitorText.text + toAppend;  
       }
+
+
+      this.initLevel = function(){
+        this.levels[this.currentLevel].forEach(this.simonSays);
+      }
+
+      this.simonSays = function(direction){
+        switch (direction){
+          case "u":
+            console.log(direction);
+            gob.animations.play('up' + " u", 20, false);
+          break;
+          case "l":
+            console.log(direction + " l");
+            gob.animations.play('left', 20, false);
+          break;
+          case "r":
+            console.log(direction + " r");
+            gob.animations.play('right', 20, false);
+          break;
+          default:
+          break;
+        }
+        return
+      }
+
 
       var gob = this.game.add.sprite(this.game.world.centerX - (250*0.8) , this.game.world.centerY - (380*0.8), 'gob');
       gob.scale.setTo(.8, .8);
@@ -59,6 +89,7 @@
       this.rightKey.onDown.add(this.appendMove, this);
       this.leftKey.onDown.add(this.appendMove, this);
 
+      this.initLevel();
 
     },
 //      this.gob.play("left", 20, true);
