@@ -25,6 +25,7 @@ function Boot() {
 Boot.prototype = {
   preload: function() {
     this.load.image('preloader', 'assets/preloader.gif');
+    this.load.image('glob', 'assets/spritetest.png', 503, 490, 6);
   },
   create: function() {
     this.game.input.maxPointers = 1;
@@ -104,58 +105,49 @@ module.exports = Menu;
     downKey: null,
     leftKey: null,
     rightKey: null,
+    glob: null,
+    anim: null,
     create: function() {
-/*
-      this.game.physics.startSystem(Phaser.Physics.ARCADE);
-      this.sprite = this.game.add.sprite(this.game.width/2, this.game.height/2, 'yeoman');
-      this.sprite.inputEnabled = true;
-      
-      this.game.physics.arcade.enable(this.sprite);
-      this.sprite.body.collideWorldBounds = true;
-      this.sprite.body.bounce.setTo(1,1);
-      this.sprite.body.velocity.x = this.game.rnd.integerInRange(-500,500);
-      this.sprite.body.velocity.y = this.game.rnd.integerInRange(-500,500);
-*/
-    this.textStyle = {font: "30px Sans", fill: "#ffffff", align: "left"};
-    this.monitorText = this.game.add.text(this.game.world.centerX, this.game.height-75, 'Your moves: ', this.textStyle);
-    this.monitorText.anchor.setTo(0.5, 0.5);
 
-    this.upKey = this.game.input.keyboard.addKey(Phaser.Keyboard.UP);
-    this.downKey = this.game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
-    this.leftKey = this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
-    this.rightKey = this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+      this.textStyle = {font: "30px Sans", fill: "#ffffff", align: "left"};
+      this.monitorText = this.game.add.text(this.game.world.centerX, this.game.height-75, this.defaultMonitorText, this.textStyle);
+      this.monitorText.anchor.setTo(0.5, 0.5);
 
-//    this.upKey.onDown.add = this.game.input.keyboard.addKey(Phaser.Keyboard.UP);
-//    this.downKey.onDown.add = this.game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
-//    this.leftKey.onDown.add = this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+      this.upKey = this.game.input.keyboard.addKey(Phaser.Keyboard.UP);
+      this.downKey = this.game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+      this.leftKey = this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+      this.rightKey = this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
 
+      this.appendMove = function(keyEvent){
+        var toAppend = null,
+        returnedKey = keyEvent.keyCode;
+        switch (returnedKey){
+          case 38:
+            toAppend = "▲";
+          break;
+          case 40:
+            toAppend = "▼";
+          break;
+          case 37:
+            toAppend = "◀";
+          break;
+          case 39:
+            toAppend = "▶";
+          break;
+        }
 
-    this.appendMove = function(keyEvent){
-      console.log(keyEvent);
-      var toAppend = null,
-      returnedKey = keyEvent.keyCode;
-      switch (returnedKey){
-        case 38:
-          toAppend = "▲";
-        break;
-        case 40:
-          toAppend = "▼";
-        break;
-        case 37:
-          toAppend = "◀";
-        break;
-        case 39:
-          toAppend = "▶";
-        break;
+        this.monitorText.text = this.monitorText.text + toAppend;  
       }
-      console.log(toAppend);
-      this.monitorText.text = this.monitorText.text + toAppend;  
-    }
 
-//    this.titleText
+      var glob = this.game.add.sprite(this.game.world.centerX - 250 , this.game.world.centerY - 300, 'glob');
+      glob.animations.add('center-left');
+      glob.animations.add('left-center');
+      glob.animations.play('center-left', 20, true);
 
+//        this.game.add.sprite(0, 0, "glob")
+//        this.glob = game.add.sprite(100, 100, "glob");
+//        this.glob.animations.add("left");
 
-//      this.sprite.events.onInputDown.add(this.clickListener, this);
     },
     update: function() {
 
@@ -164,21 +156,9 @@ module.exports = Menu;
       this.rightKey.onDown.add(this.appendMove, this);
       this.leftKey.onDown.add(this.appendMove, this);
 
-/*
-      if (this.upKey){
-        this.appendMove("up");
-      } else if (this.downKey.isDown) {
-        this.appendMove("down");
-      } else if (this.leftKey.isDown) {
-        this.appendMove("left");
-      } else if (this.rightKey.isDown) {
-        this.appendMove("right");        
-      }
-*/
+
     },
-//    clickListener: function() {
-//      this.game.state.start('gameover');
-//    }
+//      this.glob.play("left", 20, true);
   };
   
   module.exports = Play;
@@ -198,6 +178,7 @@ Preload.prototype = {
     this.load.onLoadComplete.addOnce(this.onLoadComplete, this);
     this.load.setPreloadSprite(this.asset);
     this.load.image('yeoman', 'assets/yeoman-logo.png');
+    this.load.spritesheet('glob', 'assets/spritetest.png', 503, 490, 6);
 
   },
   create: function() {
@@ -215,4 +196,4 @@ Preload.prototype = {
 
 module.exports = Preload;
 
-},{}]},{},[1])
+},{}]},{},[1]);
